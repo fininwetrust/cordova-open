@@ -1,18 +1,18 @@
 package com.disusered;
 
-import org.apache.cordova.CordovaPlugin;
-import org.apache.cordova.CallbackContext;
+import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
+import android.webkit.MimeTypeMap;
 
+import androidx.core.content.FileProvider;
+
+import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaPlugin;
 import org.json.JSONArray;
 import org.json.JSONException;
-
-import android.content.Context;
-import android.net.Uri;
-import android.content.Intent;
-import android.support.v4.content.FileProvider;
-import android.webkit.MimeTypeMap;
-import android.content.ActivityNotFoundException;
-import android.os.Build;
 
 import java.io.File;
 
@@ -27,6 +27,9 @@ public class Open extends CordovaPlugin {
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         if (action.equals(OPEN_ACTION)) {
             String path = args.getString(0);
+            String[] pathParts = path.split("/");
+            String filename = pathParts[pathParts.length - 1];
+            path = "file://" + webView.getContext().getApplicationContext().getExternalFilesDir("ITdomFiles").getAbsolutePath() + "/" + filename;
             this.chooseIntent(path, callbackContext);
             return true;
         }
