@@ -28,7 +28,7 @@ public class Open extends CordovaPlugin {
         if (action.equals(OPEN_ACTION)) {
             String path = args.getString(0);
             String[] pathParts = path.split("/");
-            String filename = pathParts[pathParts.length - 1];
+            String filename = Uri.decode(pathParts[pathParts.length - 1]);
             path = "file://" + webView.getContext().getApplicationContext().getExternalFilesDir("ITdomFiles").getAbsolutePath() + "/" + filename;
             this.chooseIntent(path, callbackContext);
             return true;
